@@ -1,6 +1,7 @@
 export const languages = {
   en: 'English',
   fr: 'Français',
+  ar: 'العربية',
 };
 export const showDefaultLang = false;
 export const defaultLang = 'fr';
@@ -63,5 +64,34 @@ export const ui = {
     'projects.taskManager.description': 'Une application web pour gérer les tâches quotidiennes.',
     'projects.ecommerce.title': 'Site E-commerce',
     'projects.ecommerce.description': 'Un site e-commerce développé avec React et Node.js.',
+  },
+  ar: {
+    'nav.home': 'الرئيسية',
+    'nav.about': 'حول',
+    'nav.projects': 'المشاريع',
+    'nav.contact': 'اتصل بنا',
+    'header.jobTitle': 'مهندس تكنولوجيا المعلومات',
+    'header.basedIn': 'مقيم في',
+    'header.country': 'المغرب',
+    'career.title': 'مسيرتي المهنية',
+    'career.subtitle': 'التطور المهني والإنجازات',
+    'career.degree.title': 'درجة البكالوريوس',
+    'career.degree.description': 'حصلت بنجاح على درجتي في تكنولوجيا المعلومات.',
+    'career.certification.title': 'شهادة المطور',
+    'career.certification.description': 'حصلت على شهادة مهنية في تطوير البرمجيات.',
+    'career.job.title': 'مهندس تكنولوجيا المعلومات في سنتريك ماركت',
+    'career.job.description': 'أعمل كمهندس تكنولوجيا المعلومات في تطوير حلول مبتكرة.',
+    'whyMe.title': 'لماذا تختارني؟',
+    'whyMe.paragraph1': 'أنا مهندس تكنولوجيا معلومات متفاني مع شغف بالتكنولوجيا والتزام بالتميز. مجموعة مهاراتي المتنوعة، بالإضافة إلى خبرتي في تطوير البرمجيات وحل المشكلات، تجعلني أصلًا قيمًا لأي فريق. أنا دائمًا حريص على التعلم والتكيف مع التحديات الجديدة، مما يضمن بقائي في طليعة الصناعة.',
+    'whyMe.paragraph2': 'أؤمن بالتحسين المستمر وأسعى لتقديم عمل عالي الجودة يتجاوز التوقعات. مهارات التواصل القوية ونهجي التعاوني يمكنني من العمل بفعالية مع الزملاء والعملاء. أنا لا أبحث ببساطة عن وظيفة؛ أنا أبحث عن فرصة للنمو والمساهمة في منظمة ديناميكية. إذا كنت تبحث عن مهندس تكنولوجيا معلومات متحمس ومؤهل، فسيسرني مناقشة كيف يمكنني تقديم قيمة لفريقك.',
+    'whyMe.paragraph3': 'دعنا نتواصل ونستكشف كيف يمكننا العمل معًا لتحقيق أشياء عظيمة!',
+    'projects.title': 'مشاريعي',
+    'projects.subtitle': 'هنا بعض من مشاريعي الحديثة',
+    'projects.portfolio.title': 'معرض أعمال شخصي',
+    'projects.portfolio.description': 'معرض أعمالي الشخصي لعرض مشاريعي ومهاراتي.',
+    'projects.taskManager.title': 'تطبيق إدارة المهام',
+    'projects.taskManager.description': 'تطبيق ويب لإدارة المهام اليومية.',
+    'projects.ecommerce.title': 'موقع التجارة الإلكترونية',
+    'projects.ecommerce.description': 'موقع تجارة إلكترونية تم تطويره باستخدام React و Node.js.',
   },
 } as const;
