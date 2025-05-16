@@ -1,0 +1,96 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Timeline from "../../components/Timeline.astro";
+import ProjectGrid from "../../components/ProjectGrid.astro";
+import HeaderMenu from "../../components/HeaderMenu.astro";
+import { getLangFromUrl, useTranslations } from "../../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const careerEvents = [
+  {
+    date: "2022",
+    title: t('career.degree.title'),
+    description: t('career.degree.description'),
+    iconType: "academic",
+  },
+  {
+    date: "2024",
+    title: t('career.certification.title'),
+    description: t('career.certification.description'),
+    iconType: "document",
+  },
+  {
+    date: "2025 - Present",
+    title: t('career.job.title'),
+    description: t('career.job.description'),
+    iconType: "computer",
+  },
+];
+
+const projects = [
+  {
+    title: t('projects.portfolio.title'),
+    description: t('projects.portfolio.description'),
+    image: "/portfolio.webp",
+    url: "https://reda-ezziani.fr",
+  },
+  {
+    title: t('projects.taskManager.title'),
+    description: t('projects.taskManager.description'),
+    image: "/task-manager.webp",
+    url: "https://task-manager.example.com",
+  },
+  {
+    title: t('projects.ecommerce.title'),
+    description: t('projects.ecommerce.description'),
+    image: "/ecommerce.webp",
+    url: "https://ecommerce.example.com",
+  },
+];
+---
+
+<Layout>
+  <HeaderMenu />
+  <section class="w-full max-w-4xl py-10">
+    <header class="flex justify-start gap-2 items-center">
+      <span class="size-16 rounded-full border flex justify-center items-center border-neutral-400/45 p-1">
+        <img src="/pr.webp" alt="Reda Ezziani" class="rounded-full w-full aspect-square object-cover" />
+      </span>
+      <div class="flex flex-col gap-1 justify-start items-start">
+        <h1>Reda Ezziani</h1>
+        <p class="text-sm text-neutral-600 dark:text-neutral-300 flex items-center gap-1">
+          <span itemprop="jobTitle">{t('header.jobTitle')}</span>
+          <span aria-hidden="true" class="inline-block w-1.5 h-1.5 bg-neutral-400 rounded-full"></span>
+          {t('header.basedIn')} <span class="text-primary" itemprop="addressLocality">{t('header.country')}</span> 
+        </p>
+      </div>
+    </header>
+    
+    <div class="mt-10">
+      <h2 class="text-xl font-bold mb-1">{t('career.title')}</h2>
+      <p class="text-neutral-600 dark:text-neutral-400 text-sm mb-4">{t('career.subtitle')}</p>
+      
+      <Timeline events={careerEvents} />
+    </div>
+    <div class="mt-10">
+      <h2 class="text-xl font-bold mb-1">{t('whyMe.title')}</h2>
+      <p class="text-neutral-600 dark:text-neutral-400 text-sm mb-4">
+        {t('whyMe.paragraph1')}
+      </p>
+      <p class="text-neutral-600 dark:text-neutral-400 text-sm mb-4">
+        {t('whyMe.paragraph2')}
+      </p>
+      <p class="text-neutral-600 dark:text-neutral-400 text-sm mb-4">
+        {t('whyMe.paragraph3')}
+      </p>
+    </div>
+    <div class="mt-10">
+      <h2 class="text-xl font-bold mb-1">{t('projects.title')}</h2>
+      <p class="text-neutral-600 dark:text-neutral-400 text-sm">{t('projects.subtitle')}</p>
+      
+      <ProjectGrid projects={projects} />
+    </div>
+  </section>
+</Layout>

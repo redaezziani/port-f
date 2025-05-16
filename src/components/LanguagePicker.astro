@@ -1,0 +1,11 @@
+---
+import { languages } from '../i18n/ui';
+import { getLangFromUrl } from '../i18n/utils';
+
+const currentLang = getLangFromUrl(Astro.url);
+---
+
+<div class="flex items-center justify-center">
+  <span class="sr-only">Current language: {languages[currentLang]}</span>
+  <span class="text-sm font-medium" aria-hidden="true">{currentLang.toUpperCase()}</span>
+</div>

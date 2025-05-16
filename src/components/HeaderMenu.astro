@@ -1,0 +1,96 @@
+---
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/utils';
+import { languages } from '../i18n/ui';
+import LanguagePicker from './LanguagePicker.astro';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
+
+const currentPath = Astro.url.pathname.replace(`/${lang}`, '') || '/';
+---
+
+<nav
+  class="w-40 h-10 overflow-visible fixed bottom-5 rounded-full border border-neutral-400/45 bg-neutral-100 dark:bg-neutral-800 dark:border-neutral-700/45 shadow-sm shadow-neutral-400/20 flex items-center justify-between gap-2"
+>
+  <ul class="w-full flex items-center p-1.5 justify-between gap-2"></ul>
+  <div class="language-dropdown relative">
+    <button
+      aria-label="language"
+      aria-expanded="false"
+      aria-controls="language-menu"
+      class="border-l h-10 w-10 p-1.5 border-neutral-400/45 flex justify-center items-center hover:bg-neutral-200 dark:hover:bg-neutral-700/20 transition-all duration-200 ease-in-out"
+      id="language-toggle"
+    >
+      <svg
+        class="w-5 h-5"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M22 2h-2v2h2v12h-2v2h2v-2h2V4h-2V2ZM2 4H0v12h2v2h2v-2H2V4Zm0 0V2h2v2H2Zm4 2H4v8h2V6Zm0 0V4h2v2H6Zm4 0h4v2h-4V6Zm0 6H8V8h2v4Zm4 0h-4v2H8v4H6v4h2v-4h2v-4h4v4h2v4h2v-4h-2v-4h-2v-2Zm0 0h2V8h-2v4Zm6-6h-2V4h-2v2h2v8h2V6Z"
+        ></path>
+      </svg>
+    </button>
+    <div
+      id="language-menu"
+      class="absolute right-0 bottom-12 hidden bg-white dark:bg-neutral-800 rounded-lg shadow-lg border border-neutral-200 dark:border-neutral-700 z-10 min-w-32 overflow-hidden transition-all duration-200"
+    >
+      <ul class="py-1">
+        {
+          Object.entries(languages).map(([langCode, label]) => (
+            <li>
+              <a
+                href={translatePath(currentPath, langCode)}
+                class={`block px-4 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors ${
+                  lang === langCode ? 'font-bold bg-neutral-50 dark:bg-neutral-750' : ''
+                }`}
+              >
+                {label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const languageToggle = document.getElementById('language-toggle');
+    const languageMenu = document.getElementById('language-menu');
+
+    if (languageToggle && languageMenu) {
+      // Toggle menu when button is clicked
+      languageToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isExpanded = languageToggle.getAttribute('aria-expanded') === 'true';
+        
+        languageToggle.setAttribute('aria-expanded', !isExpanded);
+        languageMenu.classList.toggle('hidden');
+        
+        // Add animation classes when showing
+        if (isExpanded) {
+          languageMenu.classList.remove('opacity-100', 'scale-100');
+          languageMenu.classList.add('opacity-0', 'scale-95');
+        } else {
+          languageMenu.classList.remove('opacity-0', 'scale-95');
+          languageMenu.classList.add('opacity-100', 'scale-100');
+        }
+      });
+
+      // Close menu when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!languageToggle.contains(e.target) && !languageMenu.contains(e.target)) {
+          languageMenu.classList.add('hidden');
+          languageToggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      // Add transition styles
+      languageMenu.classList.add('transform', 'transition-all', 'duration-150', 'ease-out', 'opacity-0', 'scale-95');
+    }
+  });
+</script>
