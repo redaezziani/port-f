@@ -13,7 +13,46 @@ const currentPath = Astro.url.pathname.replace(`/${lang}`, '') || '/';
 <nav
   class="w-40 h-10 overflow-visible fixed bottom-5 rounded-full border border-neutral-400/45 bg-neutral-100 dark:bg-neutral-800 dark:border-neutral-700/45 shadow-sm shadow-neutral-400/20 flex items-center justify-between gap-2"
 >
-  <ul class="w-full flex items-center p-1.5 justify-between gap-2"></ul>
+  <ul class="w-full flex items-center p-1.5 justify-between gap-2">
+    <li>
+      <button
+        id="theme-toggle"
+        aria-label="Toggle theme"
+        class="h-7 w-7 rounded-full flex justify-center items-center hover:bg-neutral-200 dark:hover:bg-neutral-700/20 transition-all duration-200 ease-in-out"
+      >
+        <!-- Sun icon (light mode) -->
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          class="w-5 h-5 dark:hidden"
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor"
+        >
+          <path 
+            stroke-linecap="round" 
+            stroke-linejoin="round" 
+            stroke-width="2" 
+            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" 
+          />
+        </svg>
+        <!-- Moon icon (dark mode) -->
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          class="w-5 h-5 hidden dark:block" 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor"
+        >
+          <path 
+            stroke-linecap="round" 
+            stroke-linejoin="round" 
+            stroke-width="2" 
+            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" 
+          />
+        </svg>
+      </button>
+    </li>
+  </ul>
   <div class="language-dropdown relative">
     <button
       aria-label="language"
@@ -58,7 +97,47 @@ const currentPath = Astro.url.pathname.replace(`/${lang}`, '') || '/';
 </nav>
 
 <script>
+  // Theme toggle functionality
   document.addEventListener('DOMContentLoaded', () => {
+    const themeToggle = document.getElementById('theme-toggle');
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    // Check for saved theme preference or use the system preference
+    const getThemePreference = () => {
+      if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+        return localStorage.getItem('theme');
+      }
+      return prefersDarkScheme.matches ? 'dark' : 'light';
+    };
+
+    // Apply the current theme
+    const applyTheme = (theme) => {
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      localStorage.setItem('theme', theme);
+    };
+
+    // Apply theme on initial load
+    applyTheme(getThemePreference());
+    
+    // Toggle theme when button is clicked
+    themeToggle?.addEventListener('click', () => {
+      const currentTheme = getThemePreference();
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      applyTheme(newTheme);
+    });
+    
+    // Watch for system preference changes
+    prefersDarkScheme.addEventListener('change', (e) => {
+      if (!localStorage.getItem('theme')) {
+        applyTheme(e.matches ? 'dark' : 'light');
+      }
+    });
+
+    // Language picker functionality (existing code)
     const languageToggle = document.getElementById('language-toggle');
     const languageMenu = document.getElementById('language-menu');
 

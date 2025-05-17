@@ -6,6 +6,10 @@
 :root{
     --color-primary: #ff2a00;
 }
+@custom-variant dark (&:where(.dark, .dark *));
+
+
+
 @theme {
     --color-primary: #ff2a00;
 }
