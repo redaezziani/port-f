@@ -12,7 +12,8 @@ const currentPath = Astro.url.pathname.replace(`/${lang}`, '') || '/';
 ---
 
 <nav
-  class="w-40 h-10 overflow-visible fixed bottom-5 rounded-full border border-neutral-400/45 bg-neutral-100 dark:bg-neutral-800 dark:border-neutral-700/45 shadow-sm shadow-neutral-400/20 flex items-center justify-between gap-2"
+  id="floating-menu"
+  class="w-40 h-10 overflow-visible fixed bottom-[-40px] md:bottom-[-40px] rounded-full border border-neutral-400/45 bg-neutral-100 dark:bg-neutral-800 dark:border-neutral-700/45 shadow-sm shadow-neutral-400/20 flex items-center justify-between gap-2 transition-all duration-300 ease-in-out z-50"
 >
   <ul class="w-full flex items-center p-1.5 justify-between gap-2">
     <li>
@@ -123,16 +124,88 @@ const currentPath = Astro.url.pathname.replace(`/${lang}`, '') || '/';
   </div>
 </nav>
 
+<div class="hover-trigger fixed bottom-0 left-0 right-0 h-24 z-40"></div>
+
 <script>
   // Theme toggle functionality
   document.addEventListener('DOMContentLoaded', () => {
     const themeToggle = document.getElementById('theme-toggle');
     const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    const floatingMenu = document.getElementById('floating-menu');
+    const hoverTrigger = document.querySelector('.hover-trigger');
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    
+    // Show menu on mobile by default
+    if (isMobile && floatingMenu) {
+      floatingMenu.style.bottom = '10px';
+    }
+    
+    // Menu hover functionality
+    if (hoverTrigger && floatingMenu && !isMobile) {
+      hoverTrigger.addEventListener('mouseenter', () => {
+        floatingMenu.style.bottom = '10px';
+      });
+      
+      floatingMenu.addEventListener('mouseenter', () => {
+        floatingMenu.style.bottom = '10px';
+      });
+      
+      floatingMenu.addEventListener('mouseleave', (e) => {
+        const event = e as MouseEvent;
+        const relatedTarget = event.relatedTarget as Node | null;
+        if (relatedTarget !== hoverTrigger) {
+          setTimeout(() => {
+            // Check if the mouse is over the menu or hover trigger
+            if (!hoverTrigger.matches(':hover') && !floatingMenu.matches(':hover')) {
+              floatingMenu.style.bottom = '-40px';
+            }
+          }, 100);
+        }
+      });
+      hoverTrigger.addEventListener('mouseleave', (e) => {
+        const event = e as MouseEvent;
+        const relatedTarget = event.relatedTarget as Node | null;
+        if (relatedTarget !== floatingMenu) {
+          setTimeout(() => {
+            // Check if the mouse is over the menu or hover trigger
+            if (!hoverTrigger.matches(':hover') && !floatingMenu.matches(':hover')) {
+              floatingMenu.style.bottom = '-40px';
+            }
+          }, 100);
+        }
+      });
+      
+      // Also check for scroll events to show the menu when near the bottom of the page
+      window.addEventListener('scroll', () => {
+        const scrollPosition = window.scrollY + window.innerHeight;
+        const documentHeight = document.body.offsetHeight;
+        const nearBottom = documentHeight - scrollPosition < 150;
+        
+        if (nearBottom) {
+          floatingMenu.style.bottom = '10px';
+        } else if (!hoverTrigger.matches(':hover') && !floatingMenu.matches(':hover')) {
+          floatingMenu.style.bottom = '-40px';
+        }
+      });
+    }
+    
+    // Handle window resize to adjust menu visibility based on screen size
+    window.addEventListener('resize', () => {
+      const isCurrentlyMobile = window.matchMedia('(max-width: 768px)').matches;
+      
+      if (floatingMenu) {
+        if (isCurrentlyMobile) {
+          floatingMenu.style.bottom = '10px';
+        } else {
+          floatingMenu.style.bottom = '-40px';
+        }
+      }
+    });
     
     // Check for saved theme preference or use the system preference
-    const getThemePreference = () => {
+    const getThemePreference = (): string => {
       if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-        return localStorage.getItem('theme');
+        return localStorage.getItem('theme') || 'light';
       }
       return prefersDarkScheme.matches ? 'dark' : 'light';
     };
@@ -147,8 +220,7 @@ const currentPath = Astro.url.pathname.replace(`/${lang}`, '') || '/';
       localStorage.setItem('theme', theme);
     };
 
-    // Apply theme on initial load
-    applyTheme(getThemePreference());
+    applyTheme(getThemePreference() || 'light');
     
     // Toggle theme when button is clicked
     themeToggle?.addEventListener('click', () => {
@@ -203,3 +275,20 @@ const currentPath = Astro.url.pathname.replace(`/${lang}`, '') || '/';
     }
   });
 </script>
+
+<style>
+  .hover-trigger {
+    pointer-events: auto;
+    background: transparent;
+  }
+
+  @media (max-width: 768px) {
+    #floating-menu {
+      bottom: 10px !important;
+    }
+    
+    .hover-trigger {
+      display: none;
+    }
+  }
+</style>

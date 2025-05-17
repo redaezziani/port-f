@@ -6,7 +6,7 @@ interface Event {
   date: string;
   title: string;
   description: string;
-  iconType: 'academic' | 'document' | 'computer';
+  iconType: 'academic' | 'document' | 'computer' | string; // Added string to accept any string value
 }
 
 interface Props {
