@@ -1,14 +1,27 @@
 ---
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const isArabic = lang === 'ar';
 ---
 
-<footer class="w-full max-w-4xl py-10 mt-16 border-t border-neutral-200 dark:border-neutral-700">
+<footer class={`w-full max-w-4xl py-10 mt-16 border-t border-neutral-200 dark:border-neutral-700 ${isArabic ? 'font-arabic' : ''}`} dir={isArabic ? 'rtl' : 'ltr'}>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
     <div>
-      <h3 class="text-lg font-semibold mb-4">Contactez-moi</h3>
+      <h3 class="text-lg font-semibold mb-4">
+        {isArabic ? 'اتصل بي' : (lang === 'en' ? 'Contact me' : 'Contactez-moi')}
+      </h3>
       <p class="text-neutral-600 dark:text-neutral-400 mb-4">
-        Vous avez une question ou une opportunité ? N'hésitez pas à me contacter.
+        {isArabic 
+          ? 'هل لديك سؤال أو فرصة؟ لا تتردد في الاتصال بي.'
+          : (lang === 'en' 
+              ? 'Do you have a question or an opportunity? Feel free to contact me.'
+              : 'Vous avez une question ou une opportunité ? N\'hésitez pas à me contacter.'
+            )
+        }
       </p>
-      <div class="flex space-x-4">
+      <div class={`flex ${isArabic ? 'space-x-reverse space-x-4' : 'space-x-4'}`}>
         <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" 
            class="text-neutral-600 dark:text-neutral-400 hover:text-primary dark:hover:text-primary">
           <span class="sr-only">LinkedIn</span>
@@ -27,11 +40,13 @@
       </div>
     </div>
     <div>
-      <h3 class="text-lg font-semibold mb-4">Envoyez-moi un message</h3>
+      <h3 class="text-lg font-semibold mb-4">
+        {isArabic ? 'أرسل لي رسالة' : (lang === 'en' ? 'Send me a message' : 'Envoyez-moi un message')}
+      </h3>
       <form id="contact-form" class="space-y-4">
         <div>
           <label for="email" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
-            Votre email
+            {isArabic ? 'بريدك الإلكتروني' : (lang === 'en' ? 'Your email' : 'Votre email')}
           </label>
           <input
             type="email"
@@ -39,12 +54,12 @@
             name="email"
             required
             class="w-full px-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"
-            placeholder="votre@email.com"
+            placeholder={isArabic ? 'اسمك@مثال.com' : (lang === 'en' ? 'your@email.com' : 'votre@email.com')}
           />
         </div>
         <div>
           <label for="message" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
-            Votre message
+            {isArabic ? 'رسالتك' : (lang === 'en' ? 'Your message' : 'Votre message')}
           </label>
           <textarea
             id="message"
@@ -52,21 +67,22 @@
             rows="3"
             required
             class="w-full px-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-700 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"
-            placeholder="Comment puis-je vous aider ?"
+            placeholder={isArabic ? 'كيف يمكنني مساعدتك؟' : (lang === 'en' ? 'How can I help you?' : 'Comment puis-je vous aider ?')}
           ></textarea>
         </div>
         <button
           type="submit"
           class="px-4 py-2 bg-primary text-white font-medium rounded-md hover:bg-opacity-90 transition-colors"
         >
-          Envoyer
+          {isArabic ? 'إرسال' : (lang === 'en' ? 'Send' : 'Envoyer')}
         </button>
       </form>
     </div>
   </div>
   <div class="mt-8 pt-8 border-t border-neutral-200 dark:border-neutral-700 text-center">
     <p class="text-neutral-600 dark:text-neutral-400 text-sm">
-      &copy; {new Date().getFullYear()} Reda Ezziani. Tous droits réservés.
+      &copy; {new Date().getFullYear()} Reda Ezziani. 
+      {isArabic ? 'جميع الحقوق محفوظة' : (lang === 'en' ? 'All rights reserved' : 'Tous droits réservés')}
     </p>
   </div>
 </footer>
@@ -77,11 +93,19 @@
     e.preventDefault();
     const email = document.getElementById('email') as HTMLInputElement;
     const message = document.getElementById('message') as HTMLTextAreaElement;
+    const lang = document.documentElement.lang;
     
     // Here you would typically send this data to your backend
-    // For now, we'll just show an alert
+    // For now, we'll just show an alert with the appropriate language
     if (email && message) {
-      alert(`Merci pour votre message ! Nous vous contacterons à ${email.value}`);
+      if (lang === 'ar') {
+        alert(`شكراً على رسالتك! سنتواصل معك على ${email.value}`);
+      } else if (lang === 'en') {
+        alert(`Thank you for your message! We will contact you at ${email.value}`);
+      } else {
+        alert(`Merci pour votre message ! Nous vous contacterons à ${email.value}`);
+      }
+      
       email.value = '';
       message.value = '';
     }

@@ -35,6 +35,9 @@ export const ui = {
     'projects.taskManager.description': 'A web application for managing daily tasks.',
     'projects.ecommerce.title': 'E-commerce Website',
     'projects.ecommerce.description': 'An e-commerce site developed with React and Node.js.',
+    'technologies.title': 'My Technologies',
+    'technologies.subtitle': 'Technologies and tools I work with',
+    'technologies.paragraph': 'I\'m currently developing highly scalable microservices using Go and NestJS. I have extensive experience with Next.js and Tailwind CSS for frontend development. My backend expertise includes PostgreSQL, RabbitMQ, Redis, and Docker. I follow clean code principles and SOLID design patterns with a strong understanding of algorithms. I\'m also proficient with Linux systems and Nginx configuration for deployment.',
   },
   fr: {
     'nav.home': 'Accueil',
@@ -64,6 +67,9 @@ export const ui = {
     'projects.taskManager.description': 'Une application web pour gérer les tâches quotidiennes.',
     'projects.ecommerce.title': 'Site E-commerce',
     'projects.ecommerce.description': 'Un site e-commerce développé avec React et Node.js.',
+    'technologies.title': 'Mes Technologies',
+    'technologies.subtitle': 'Technologies et outils avec lesquels je travaille',
+    'technologies.paragraph': 'Je développe actuellement des microservices hautement évolutifs en utilisant Go et NestJS. J\'ai une expérience approfondie avec Next.js et Tailwind CSS pour le développement frontend. Mon expertise backend comprend PostgreSQL, RabbitMQ, Redis et Docker. Je suis les principes du code propre et les modèles de conception SOLID avec une bonne compréhension des algorithmes. Je suis également compétent avec les systèmes Linux et la configuration Nginx pour le déploiement.',
   },
   ar: {
     'nav.home': 'الرئيسية',
@@ -93,5 +99,8 @@ export const ui = {
     'projects.taskManager.description': 'تطبيق ويب لإدارة المهام اليومية.',
     'projects.ecommerce.title': 'موقع التجارة الإلكترونية',
     'projects.ecommerce.description': 'موقع تجارة إلكترونية تم تطويره باستخدام React و Node.js.',
+    'technologies.title': 'تقنياتي',
+    'technologies.subtitle': 'التقنيات والأدوات التي أعمل بها',
+    'technologies.paragraph': 'أقوم حاليًا بتطوير خدمات مصغرة عالية القابلية للتوسع باستخدام Go و NestJS. لدي خبرة واسعة مع Next.js و Tailwind CSS لتطوير الواجهات الأمامية. تشمل خبرتي في الواجهة الخلفية PostgreSQL و RabbitMQ و Redis و Docker. أتبع مبادئ الشفرة النظيفة وأنماط تصميم SOLID مع فهم قوي للخوارزميات. أنا أيضًا ماهر في أنظمة لينكس وتكوين Nginx للنشر.',
   },
 } as const;

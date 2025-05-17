@@ -51,52 +51,64 @@ const projects = [
 ];
 ---
 
-<Layout title="Reda Ezziani - Portfolio" lang={lang} dir="rtl">
-  <main class="flex-1 p-4 pt-14 mx-auto max-w-7xl min-h-screen" dir="rtl">
-    <div class="h-32 md:h-44 bg-gradient-to-b from-primary-100 dark:from-neutral-800 to-transparent rounded-xl mb-10 mt-5 flex items-center justify-center">
-      <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-6">
-        <div class="flex flex-col text-center md:text-left gap-1">
-          <h1 class="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-secondary-500">
-            Reda Ezziani
-          </h1>
-          <p class="text-xl md:text-2xl font-medium text-neutral-700 dark:text-neutral-200">
-            {t('header.jobTitle')}
-          </p>
-          <p class="text-sm md:text-base text-neutral-500 dark:text-neutral-400">
-            {t('header.basedIn')} {t('header.country')}
-          </p>
+<Layout>
+  <HeaderMenu />
+  <section class="w-full font-arabic max-w-4xl py-10" dir="rtl">
+    <header class="flex justify-start gap-2 items-center">
+      <span class="size-16 rounded-full border flex justify-center items-center border-neutral-400/45 p-1">
+        <img src="/pr.webp" alt="Reda Ezziani" class="rounded-full w-full aspect-square object-cover" />
+      </span>
+      <div class="flex flex-col gap-1 justify-start items-start">
+        <h1>Reda Ezziani</h1>
+        <p class="text-sm text-neutral-600 dark:text-neutral-300 flex items-center gap-1">
+          <span itemprop="jobTitle">{t('header.jobTitle')}</span>
+          <span aria-hidden="true" class="inline-block w-1.5 h-1.5 bg-neutral-400 rounded-full"></span>
+          {t('header.basedIn')} <span class="text-primary" itemprop="addressLocality">{t('header.country')}</span> 
+        </p>
+      </div>
+    </header>
+    
+    <div class="mt-10">
+      <h2 class="text-xl font-bold mb-1">{t('career.title')}</h2>
+      <p class="text-neutral-600 dark:text-neutral-400 text-sm mb-4">{t('career.subtitle')}</p>
+      
+      <Timeline events={careerEvents} />
+    </div>
+    <div class="mt-10">
+      <h2 class="text-xl font-bold mb-1">{t('whyMe.title')}</h2>
+      <p class="text-neutral-600 dark:text-neutral-400 text-sm mb-4">
+        {t('whyMe.paragraph1')}
+      </p>
+      <p class="text-neutral-600 dark:text-neutral-400 text-sm mb-4">
+        {t('whyMe.paragraph2')}
+      </p>
+      <p class="text-neutral-600 dark:text-neutral-400 text-sm mb-4">
+        {t('whyMe.paragraph3')}
+      </p>
+    </div>
+    <div class="mt-10">
+      <h2 class="text-xl font-bold mb-1">{t('projects.title')}</h2>
+      <p class="text-neutral-600 dark:text-neutral-400 text-sm">{t('projects.subtitle')}</p>
+      
+      <ProjectGrid projects={projects} />
+    </div>
+    
+    <div class="">
+      <h2 class="text-xl font-bold mb-1">{t('technologies.title')}</h2>
+      <p class="text-neutral-600 dark:text-neutral-400 text-sm mb-6">{t('technologies.subtitle')}</p>
+      
+      <div class="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg p-6">
+        <div class="flex flex-wrap gap-3 mb-4">
+          {['Go', 'NestJS', 'Next.js', 'Tailwind CSS', 'PostgreSQL', 'RabbitMQ', 'Redis', 'Docker', 'Linux', 'Nginx'].map((tech) => (
+            <span class="px-3 py-1 bg-neutral-100 dark:bg-neutral-700 text-neutral-800 dark:text-neutral-200 rounded-full text-sm font-medium">
+              {tech}
+            </span>
+          ))}
         </div>
+        <p class="text-neutral-600 dark:text-neutral-400">
+          {t('technologies.paragraph')}
+        </p>
       </div>
     </div>
-
-    <section class="mb-12">
-      <h2 class="text-3xl font-bold text-center mb-6">{t('whyMe.title')}</h2>
-      <div class="prose dark:prose-invert mx-auto">
-        <p>{t('whyMe.paragraph1')}</p>
-        <p>{t('whyMe.paragraph2')}</p>
-        <p>{t('whyMe.paragraph3')}</p>
-      </div>
-    </section>
-
-    <section class="mb-12">
-      <div class="text-center mb-10">
-        <h2 class="text-3xl font-bold">{t('career.title')}</h2>
-        <p class="text-neutral-600 dark:text-neutral-400 mt-2">
-          {t('career.subtitle')}
-        </p>
-      </div>
-      <Timeline events={careerEvents} />
-    </section>
-
-    <section class="mb-12">
-      <div class="text-center mb-10">
-        <h2 class="text-3xl font-bold">{t('projects.title')}</h2>
-        <p class="text-neutral-600 dark:text-neutral-400 mt-2">
-          {t('projects.subtitle')}
-        </p>
-      </div>
-      <ProjectGrid projects={projects} />
-    </section>
-  </main>
-  <HeaderMenu client:load />
+  </section>
 </Layout>
