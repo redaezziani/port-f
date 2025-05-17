@@ -6,19 +6,20 @@ import LanguagePicker from './LanguagePicker.astro';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const translatePath = useTranslatedPath(lang);
+const isArabic = lang === 'ar';
 
 const currentPath = Astro.url.pathname.replace(`/${lang}`, '') || '/';
 ---
 
 <nav
-  class="w-40 h-10 overflow-hidden fixed bottom-5 rounded-full border border-neutral-400/45 bg-neutral-100 dark:bg-neutral-800 dark:border-neutral-700/45 shadow-sm shadow-neutral-400/20 flex items-center justify-between gap-2"
+  class="w-40 h-10 overflow-visible fixed bottom-5 rounded-full border border-neutral-400/45 bg-neutral-100 dark:bg-neutral-800 dark:border-neutral-700/45 shadow-sm shadow-neutral-400/20 flex items-center justify-between gap-2"
 >
   <ul class="w-full flex items-center p-1.5 justify-between gap-2">
     <li>
       <button
         id="theme-toggle"
         aria-label="Toggle theme"
-        class="h-7 w-7 rounded-full flex justify-center items-center hover:bg-neutral-200 dark:hover:bg-neutral-700/20 transition-all duration-200 ease-in-out"
+        class="h-7 w-7 rounded-full cursor-pointer flex justify-center items-center hover:bg-neutral-200 dark:hover:bg-neutral-700/20 transition-all duration-200 ease-in-out"
       >
         <!-- Sun icon (light mode) -->
         <svg 
@@ -59,7 +60,7 @@ const currentPath = Astro.url.pathname.replace(`/${lang}`, '') || '/';
       <a href="https://github.com/redaezziani" class="text-sm">
         <button
           aria-label="GitHub"
-          class="h-7 w-7 rounded-full flex justify-center items-center hover:bg-neutral-200 dark:hover:bg-neutral-700/20 transition-all duration-200 ease-in-out"
+          class="h-7 w-7 rounded-full cursor-pointer flex justify-center items-center hover:bg-neutral-200 dark:hover:bg-neutral-700/20 transition-all duration-200 ease-in-out"
         >
         <svg
         class="w-5 h-5"
@@ -68,17 +69,34 @@ const currentPath = Astro.url.pathname.replace(`/${lang}`, '') || '/';
       </a>
     </li>
 
+    <li>
+      <a href="#head" class="text-sm">
+        <button
+          aria-label=""
+          class="h-7 w-7 rounded-full cursor-pointer flex justify-center items-center hover:bg-neutral-200 dark:hover:bg-neutral-700/20 transition-all duration-200 ease-in-out"
+        >
+        <svg
+        class="w-5 h-5"
+        fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path d="M14 2h-4v2H8v2H6v2H4v2H2v2h2v10h7v-6h2v6h7V12h2v-2h-2V8h-2V6h-2V4h-2V2zm0 2v2h2v2h2v2h2v2h-2v8h-3v-6H9v6H6v-8H4v-2h2V8h2V6h2V4h4z" fill="currentColor"/> </svg>
+        </button>
+      </a>
+    </li>
+    
+
   </ul>
   <div class="language-dropdown relative">
     <button
       aria-label="language"
       aria-expanded="false"
       aria-controls="language-menu"
-      class="border-l h-10 w-10 p-1.5 border-neutral-400/45 flex justify-center items-center hover:bg-neutral-200 dark:hover:bg-neutral-700/20 transition-all duration-200 ease-in-out"
+      class="border-l h-10 w-10 p-1.5 cursor-pointer border-neutral-400/45 flex rounded-r-full justify-center items-center hover:bg-neutral-200 dark:hover:bg-neutral-700/20 transition-all duration-200 ease-in-out"
       id="language-toggle"
     >
    
-      
+    <svg
+    class="w-5 h-5"
+
+    fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path d="M6 4h14v2h2v6h-8v2h6v2h-4v2h-2v2H2V8h2V6h2V4zm2 6h2V8H8v2z" fill="currentColor"/> </svg>
     </button>
     <div
       id="language-menu"
@@ -92,7 +110,7 @@ const currentPath = Astro.url.pathname.replace(`/${lang}`, '') || '/';
                 href={translatePath(currentPath, langCode)}
                 class={`block px-4 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors ${
                   lang === langCode ? 'font-bold bg-neutral-50 dark:bg-neutral-750' : ''
-                }`}
+                } ${langCode === 'ar' ? 'font-arabic' : ''}`}
               >
                 {label}
               </a>
@@ -145,7 +163,7 @@ const currentPath = Astro.url.pathname.replace(`/${lang}`, '') || '/';
       }
     });
 
-    // Language picker functionality (existing code)
+    // Language picker functionality
     const languageToggle = document.getElementById('language-toggle');
     const languageMenu = document.getElementById('language-menu');
 
@@ -177,7 +195,7 @@ const currentPath = Astro.url.pathname.replace(`/${lang}`, '') || '/';
       });
 
       // Add transition styles
-      languageMenu.classList.add('transform', 'transition-all', 'duration-150', 'ease-out', 'opacity-0', 'scale-95');
+      languageMenu.classList.add('transform', 'transition-all', 'duration-150', 'ease-out');
     }
   });
 </script>

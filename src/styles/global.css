@@ -27,14 +27,16 @@
   font-style: normal;
   font-display: swap;
 }
-
+*{
+  scroll-behavior: smooth;
+}
 :root{
-    --color-primary: #ff2a00;
+    --color-primary: #00ac67;
 }
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-    --color-primary: #ff2a00;
+    --color-primary: #00ac67;
     --font-arabic: 'LANTX', sans-serif;
 }
 @layer base {

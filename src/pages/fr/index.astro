@@ -54,7 +54,9 @@ const projects = [
 <Layout>
   <HeaderMenu />
   <section class="w-full max-w-4xl py-10">
-    <header class="flex justify-start gap-2 items-center">
+    <header
+    id="head"
+    class="flex justify-start gap-2 items-center">
       <span class="size-16 rounded-full border flex justify-center items-center border-neutral-400/45 p-1">
         <img src="/pr.webp" alt="Reda Ezziani" class="rounded-full w-full aspect-square object-cover" />
       </span>
@@ -97,15 +99,15 @@ const projects = [
       <h2 class="text-xl font-bold mb-1">{t('technologies.title')}</h2>
       <p class="text-neutral-600 dark:text-neutral-400 text-sm mb-6">{t('technologies.subtitle')}</p>
       
-      <div class="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg  p-6">
+      <div class="">
         <div class="flex flex-wrap gap-3 mb-4">
           {['Go', 'NestJS', 'Next.js', 'Tailwind CSS', 'PostgreSQL', 'RabbitMQ', 'Redis', 'Docker', 'Linux', 'Nginx'].map((tech) => (
-            <span class="px-3 py-1 bg-neutral-100 dark:bg-neutral-700 text-neutral-800 dark:text-neutral-200 rounded-full text-sm font-medium">
+            <span class="px-3 border-neutral-400/45 py-1 bg-neutral-100 dark:bg-neutral-700 text-neutral-800 dark:text-neutral-200 rounded-full text-sm font-medium">
               {tech}
             </span>
           ))}
         </div>
-        <p class="text-neutral-600 dark:text-neutral-400">
+        <p class="text-neutral-600 text-sm dark:text-neutral-400">
           {t('technologies.paragraph')}
         </p>
       </div>
