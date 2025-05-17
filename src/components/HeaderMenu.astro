@@ -89,13 +89,12 @@ const currentPath = Astro.url.pathname.replace(`/${lang}`, '') || '/';
       aria-label="language"
       aria-expanded="false"
       aria-controls="language-menu"
-      class="border-l h-10 w-10 p-1.5 cursor-pointer border-neutral-400/45 flex rounded-r-full justify-center items-center hover:bg-neutral-200 dark:hover:bg-neutral-700/20 transition-all duration-200 ease-in-out"
+      class="border-l h-10 w-10 cursor-pointer rounded-r-full p-1.5 border-neutral-400/45 flex justify-center items-center hover:bg-neutral-200 dark:hover:bg-neutral-700/20 transition-all duration-200 ease-in-out"
       id="language-toggle"
     >
    
     <svg
     class="w-5 h-5"
-
     fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path d="M6 4h14v2h2v6h-8v2h6v2h-4v2h-2v2H2V8h2V6h2V4zm2 6h2V8H8v2z" fill="currentColor"/> </svg>
     </button>
     <div
@@ -104,18 +103,20 @@ const currentPath = Astro.url.pathname.replace(`/${lang}`, '') || '/';
     >
       <ul class="py-1">
         {
-          Object.entries(languages).map(([langCode, label]) => (
-            <li>
-              <a
-                href={translatePath(currentPath, langCode)}
-                class={`block px-4 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors ${
-                  lang === langCode ? 'font-bold bg-neutral-50 dark:bg-neutral-750' : ''
-                } ${langCode === 'ar' ? 'font-arabic' : ''}`}
-              >
-                {label}
-              </a>
-            </li>
-          ))
+          Object.entries(languages)
+            .filter(([langCode]) => langCode !== lang) // Filter out current language
+            .map(([langCode, label]) => (
+              <li>
+                <a
+                  href={translatePath(currentPath, langCode)}
+                  class={`block px-4 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors ${
+                    langCode === 'ar' ? 'font-arabic' : ''
+                  }`}
+                >
+                  {label}
+                </a>
+              </li>
+            ))
         }
       </ul>
     </div>
@@ -137,7 +138,7 @@ const currentPath = Astro.url.pathname.replace(`/${lang}`, '') || '/';
     };
 
     // Apply the current theme
-    const applyTheme = (theme) => {
+    const applyTheme = (theme: string) => {
       if (theme === 'dark') {
         document.documentElement.classList.add('dark');
       } else {
@@ -173,7 +174,7 @@ const currentPath = Astro.url.pathname.replace(`/${lang}`, '') || '/';
         e.stopPropagation();
         const isExpanded = languageToggle.getAttribute('aria-expanded') === 'true';
         
-        languageToggle.setAttribute('aria-expanded', !isExpanded);
+        languageToggle.setAttribute('aria-expanded', isExpanded ? 'false' : 'true');
         languageMenu.classList.toggle('hidden');
         
         // Add animation classes when showing
@@ -187,8 +188,11 @@ const currentPath = Astro.url.pathname.replace(`/${lang}`, '') || '/';
       });
 
       // Close menu when clicking outside
-      document.addEventListener('click', (e) => {
-        if (!languageToggle.contains(e.target) && !languageMenu.contains(e.target)) {
+      document.addEventListener('click', (e: Event) => {
+        const target = e.target as Node;
+        if (languageToggle && languageMenu && 
+            !languageToggle.contains(target) && 
+            !languageMenu.contains(target)) {
           languageMenu.classList.add('hidden');
           languageToggle.setAttribute('aria-expanded', 'false');
         }
